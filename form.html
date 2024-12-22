@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Form with JS Submit</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-container {
+            width: 300px;
+            margin: 0 auto;
+        }
+        label, input, button {
+            display: block;
+            margin: 10px 0;
+            width: 100%;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 20px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Submit Form</h2>
+        <form onsubmit="signup(); return false;" id="myForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+            <input type="submit" value="Signup">
+            
+        </form>
+        <div class="message" id="message"></div>
+
+<div><p class="allUserList" id="allUserList"></p><div>
+
+    <button type="button" onclick="getAllUsers()">Get All Users</button>
+    </div>
+
+    <script>
+        
+        function signup() {
+            // Get form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+
+            axios.post('http://localhost:4000/users',{
+"name":name,
+"email":email     }) .then(function(response){console.log(response.data)
+
+    document.querySelector("#message").innerHTML=response.data;
+
+
+
+})
+
+
+.catch(function(error) {
+    console.log(error.message);
+})
+
+
+    document.querySelector("#message").innerHTML=response.data;
+}
+
+        
+
+function getAllUsers(){
+axios.get("http://localhost:4000/users")
+
+.then(function(response){console.log(response.data);
+response.data.map(eachUser => {
+document.querySelector("#allUserList").innerHTML += `<b>${eachUser.name}</b> ${eachUser.email} <br>`
+})
+
+
+}
+
+)}
+    </script>
+
+
+
+</body>
+</html>
